@@ -1,9 +1,9 @@
 // EDIT YOUR NOTES HERE. Add a visit with a real date as its label when you have one.
-// Keep the location keys the same. Omit a key if you did not record that location.
+// Keep location keys the same. Omitted notes hide that location for the day.
+// Demo positions are arbitrary [left %, top %], kept fixed when switching days.
 const visits = [
   {
     label: 'General notes · undated',
-    demo: false,
     notes: {
       desk: 'feet / chalk / sometimes towels',
       cave: 'old books & wood',
@@ -14,8 +14,15 @@ const visits = [
     },
   },
   {
-    label: 'Demo visit A · no real date',
-    demo: true,
+    label: 'Day A · demo',
+    positions: {
+      desk: [31, 46],
+      cave: [18, 28],
+      climbing: [49, 78],
+      yoga: [34, 40],
+      bathroom: [76, 25],
+      gym: [42, 80],
+    },
     notes: {
       desk: 'feet / chalk',
       cave: 'old books & wood',
@@ -26,8 +33,14 @@ const visits = [
     },
   },
   {
-    label: 'Demo visit B · no real date',
-    demo: true,
+    label: 'Day B · demo',
+    positions: {
+      desk: [19, 45],
+      cave: [30, 36],
+      climbing: [23, 74],
+      bathroom: [85, 31],
+      gym: [72, 77],
+    },
     notes: {
       desk: 'towels today?? and chalk',
       cave: 'old books & wood',
@@ -50,77 +63,53 @@ const names = {
 const stage = document.querySelector('#stage');
 const toggle = document.querySelector('#toggle');
 const select = document.querySelector('#visit');
-const dots = [...document.querySelectorAll('.dot')];
+const dots = document.querySelectorAll('.dot');
+const spotTitle = document.querySelector('#spot-title');
+const description = document.querySelector('#description');
 
 let expanded = false;
-let selectedSpot = null;
 
 visits.forEach((visit, index) => {
-  const option = document.createElement('option');
-  option.value = index;
-  option.textContent = visit.label;
-  select.append(option);
+  select.add(new Option(visit.label, index));
 });
 
 function setExpanded(value) {
   expanded = value;
   stage.classList.toggle('expanded', value);
+  stage.inert = !value;
   toggle.setAttribute('aria-expanded', String(value));
-  toggle.textContent = value ? 'Stack the floors ↙' : 'Separate the floors ↗';
-
-  document.querySelector('#instruction').textContent = value
-    ? 'Hover or tap a dot to read a note.'
-    : 'Click the stack to open it.';
-
-  dots.forEach((dot) => {
-    dot.disabled = !value;
-  });
+  const label = value ? 'Stack the floors' : 'Open floors side by side';
+  toggle.setAttribute('aria-label', 'click to ' + label.toLowerCase());
+  toggle.title = label;
 }
 
 function showSpot(spot) {
-  selectedSpot = spot;
   const visit = visits[Number(select.value)];
   const note = visit.notes[spot];
 
-  document.querySelector('#spot-title').textContent = names[spot];
-  document.querySelector('#description').textContent = note
-    ? '“' + note + '”'
+  spotTitle.textContent = names[spot];
+  description.textContent = note
+    ? `“${note}”`
     : 'No note recorded here.';
-
-  document.querySelector('#note-context').textContent = note
-    ? (visit.demo
-      ? 'Illustrative demo note · replace with your own dated observation.'
-      : 'Your original notes · date not recorded.')
-    : 'Missing a note doesn’t mean there was no smell.';
-
-  dots.forEach((dot) => {
-    dot.classList.toggle('active', dot.dataset.spot === spot);
-  });
 }
 
 function updateVisit() {
   const visit = visits[Number(select.value)];
 
-  document.querySelector('#visit-context').textContent = visit.demo
-    ? 'Demo only: these visits illustrate the filter. They are not actual dated observations.'
-    : 'Your existing observations collected together. Choose a demo visit to try changes between visits.';
-
   dots.forEach((dot) => {
-    dot.classList.toggle('missing', !visit.notes[dot.dataset.spot]);
+    const spot = dot.dataset.spot;
+    const position = visit.positions?.[spot];
+
+    dot.hidden = !visit.notes[spot];
+    dot.style.left = position ? `${position[0]}%` : '';
+    dot.style.top = position ? `${position[1]}%` : '';
   });
 
-  if (selectedSpot) {
-    showSpot(selectedSpot);
-  }
+  spotTitle.textContent = 'Explore a little.';
+  description.textContent = 'Hover over a dot to read a note.';
 }
 
 toggle.addEventListener('click', () => setExpanded(!expanded));
-
-stage.addEventListener('click', (event) => {
-  if (!expanded && event.target.closest('.floor')) {
-    setExpanded(true);
-  }
-});
 
 dots.forEach((dot) => {
   ['mouseenter', 'focus', 'click'].forEach((type) => {
