@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      A gym, by smell — study 01
+    </title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <div>
+        <div class="eyebrow">
+          Gym smell map
+        </div>
+        <h1>
+          A gym, by smell.
+        </h1>
+        <div class="small">
+          Choose a visit. Explore the floors. Read the notes.
+        </div>
+      </div>
+      <span class="badge">
+        WIREFRAME
+      </span>
+    </header>
+    <main>
+      <section aria-label="Interactive gym map">
+        <div class="toolbar">
+          <button class="toggle" id="toggle" aria-expanded="false" aria-controls="stage">
+            Separate the floors ↗
+          </button>
+          <span class="hint" id="instruction">
+            Click the stack to open it.
+          </span>
+        </div>
+        <div class="stage" id="stage">
+          <div class="floor" data-floor="entrance" aria-label="Entrance level">
+            <div class="room layout-1">
+              Front desk
+            </div>
+            <div class="room layout-2">
+              Stairs ↓
+            </div>
+            <div class="room layout-3">
+              Entrance / lobby
+            </div>
+            <button class="dot" data-spot="desk" aria-label="Smell at the front desk">
+            </button>
+            <span class="floor-title">
+              00 / MAIN ENTRANCE
+            </span>
+          </div>
+          <div class="floor" data-floor="climbing" aria-label="Climbing level">
+            <div class="room layout-4">
+              The cave
+            </div>
+            <div class="room layout-5">
+              Stairs
+            </div>
+            <div class="room layout-6">
+              Climbing area
+            </div>
+            <button class="dot" data-spot="cave" aria-label="Smell in the cave">
+            </button>
+            <button class="dot" data-spot="climbing" aria-label="Smell in the climbing area">
+            </button>
+            <span class="floor-title">
+              01 / CLIMBING LEVEL
+            </span>
+          </div>
+          <div class="floor" data-floor="basement" aria-label="Basement">
+            <div class="room layout-7">
+              Yoga room
+            </div>
+            <div class="room layout-8">
+              Bathroom
+            </div>
+            <div class="room layout-9">
+              Gym / shared space
+            </div>
+            <button class="dot" data-spot="yoga" aria-label="Smell in the yoga room">
+            </button>
+            <button class="dot" data-spot="bathroom" aria-label="Smell in the bathroom">
+            </button>
+            <button class="dot" data-spot="gym" aria-label="Smell in the basement gym">
+            </button>
+            <span class="floor-title">
+              02 / BASEMENT
+            </span>
+          </div>
+        </div>
+      </section>
+      <aside>
+        <label for="visit" class="eyebrow">
+          01 / Choose a visit
+        </label>
+        <select id="visit">
+        </select>
+        <p class="small" id="visit-context">
+        </p>
+        <div class="note" aria-live="polite" aria-atomic="true">
+          <div class="eyebrow">
+            02 / A smell, somewhere
+          </div>
+          <h2 id="spot-title">
+            Explore a little.
+          </h2>
+          <blockquote id="description">
+            Open the floors, then hover over a dot.
+          </blockquote>
+          <div class="small" id="note-context">
+            You can also tap a dot or reach it with the Tab key.
+          </div>
+        </div>
+        <div class="legend">
+          <span class="swatch">
+          </span>
+          A recorded observation
+        </div>
+        <div class="legend">
+          <span class="swatch layout-10">
+          </span>
+          No note for this visit
+        </div>
+        <p class="small layout-11">
+          A rough spatial sketch—not the gym’s actual floor plan yet. Your descriptions stay informal, question marks and all.
+        </p>
+      </aside>
+    </main>
+    <footer class="small">
+      <span>
+        Personal observations, not measurements.
+      </span>
+      <span>
+        Entrance / climbing / basement
+      </span>
+    </footer>
+    <script src="script.js">
+    </script>
+  </body>
+</html>

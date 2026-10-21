@@ -1,0 +1,396 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  color: #000;
+  background: #fff;
+  font-family: monospace;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin: 0 5%;
+  padding: 30px 0 22px;
+  border-bottom: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.eyebrow {
+  font: 11px monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font: bold 28px monospace;
+  margin: 12px 0;
+}
+
+.badge {
+  border: 1px solid #000;
+  border-radius: 0;
+  padding: 10px 15px;
+  font: 11px monospace;
+}
+
+main {
+  max-width: 1400px;
+  margin: auto;
+  padding: 30px 5%;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 300px;
+  gap: 40px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+button, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.toggle {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 0;
+  padding: 12px 18px;
+}
+
+.hint {
+  font: 12px monospace;
+  color: #000;
+}
+
+.stage {
+  height: 650px;
+  position: relative;
+  isolation: isolate;
+}
+
+.floor {
+  width: 350px;
+  height: 240px;
+  position: absolute;
+  left: 50%;
+  top: 215px;
+  margin-left: -175px;
+  transform: rotateX(52deg) rotateZ(-34deg);
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: none;
+  transition: top .35s ease;
+}
+
+.floor[data-floor="entrance"] {
+  z-index: 3;
+  top: 180px;
+  background: #fff;
+}
+
+.floor[data-floor="climbing"] {
+  z-index: 2;
+  top: 215px;
+}
+
+.floor[data-floor="basement"] {
+  z-index: 1;
+  top: 250px;
+  background: #fff;
+}
+
+.expanded .floor[data-floor="entrance"] {
+  top: 45px;
+}
+
+.expanded .floor[data-floor="climbing"] {
+  top: 245px;
+}
+
+.expanded .floor[data-floor="basement"] {
+  top: 445px;
+}
+
+.floor-title {
+  position: absolute;
+  top: 100%;
+  padding-top: 23px;
+  left: 3px;
+  font: bold 12px monospace;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.stage:not(.expanded) .floor-title {
+  visibility: hidden;
+}
+
+.stage:not(.expanded) .floor[data-floor="entrance"] .floor-title {
+  visibility: visible;
+}
+
+.stage:not(.expanded) .floor {
+  cursor: pointer;
+}
+
+.room {
+  position: absolute;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 10px monospace;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.dot {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  margin: -12px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  background: #000;
+  box-shadow: 0 0 0 1px #000;
+  z-index: 4;
+  transition: scale .15s;
+}
+
+.dot:hover, .dot:focus-visible, .dot.active {
+  scale: 1.3;
+  background: #000;
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+.dot.missing {
+  background: #fff;
+  box-shadow: 0 0 0 1px #000;
+  border: 5px solid #fff;
+}
+
+aside {
+  border-left: 1px solid #000;
+  padding-left: 28px;
+}
+
+label {
+  display: block;
+  margin: 8px 0 12px;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid #000;
+  border-radius: 0;
+}
+
+.small {
+  font-size: 12px;
+  color: #000;
+  line-height: 1.6;
+}
+
+.note {
+  margin-top: 32px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: 24px 0;
+  min-height: 230px;
+}
+
+h2 {
+  font: bold 18px monospace;
+  margin: 16px 0;
+}
+
+blockquote {
+  font: 16px/1.6 monospace;
+  margin: 15px 0;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  font-size: 12px;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #000;
+}
+
+footer {
+  margin: 0 5%;
+  padding: 20px 0;
+  border-top: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+@media (max-width: 800px) {
+  main {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  aside {
+    border-left: 0;
+    padding-left: 0;
+  }
+  header .badge {
+    display: none;
+  }
+  .note {
+    min-height: 0;
+  }
+  .stage {
+    height: 650px;
+  }
+}
+
+@media (max-width: 430px) {
+  .floor {
+    width: 290px;
+    height: 205px;
+    margin-left: -145px;
+  }
+  .toolbar {
+    align-items: start;
+  }
+  .hint {
+    max-width: 140px;
+    line-height: 1.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floor, .dot {
+    transition: none;
+  }
+}
+
+.layout-1 {
+  left: 5%;
+  top: 8%;
+  width: 35%;
+  height: 32%;
+}
+
+.layout-2 {
+  right: 5%;
+  top: 8%;
+  width: 23%;
+  height: 55%;
+}
+
+.layout-3 {
+  left: 5%;
+  bottom: 8%;
+  width: 53%;
+  height: 25%;
+  border-style: dashed;
+}
+
+.layout-4 {
+  left: 5%;
+  top: 8%;
+  width: 35%;
+  height: 38%;
+}
+
+.layout-5 {
+  right: 5%;
+  top: 8%;
+  width: 23%;
+  height: 30%;
+}
+
+.layout-6 {
+  left: 5%;
+  bottom: 8%;
+  width: 65%;
+  height: 28%;
+}
+
+.layout-7 {
+  left: 5%;
+  top: 8%;
+  width: 42%;
+  height: 48%;
+}
+
+.layout-8 {
+  right: 5%;
+  top: 8%;
+  width: 30%;
+  height: 35%;
+}
+
+.layout-9 {
+  left: 5%;
+  bottom: 8%;
+  width: 90%;
+  height: 25%;
+}
+
+.layout-10 {
+  background: transparent;
+  border: 1px solid #000;
+}
+
+.layout-11 {
+  margin-top: 30px;
+}
+
+.dot[data-spot="desk"] {
+  left: 28%;
+  top: 48%;
+}
+
+.dot[data-spot="cave"] {
+  left: 25%;
+  top: 34%;
+}
+
+.dot[data-spot="climbing"] {
+  left: 55%;
+  top: 70%;
+}
+
+.dot[data-spot="yoga"] {
+  left: 26%;
+  top: 43%;
+}
+
+.dot[data-spot="bathroom"] {
+  left: 80%;
+  top: 35%;
+}
+
+.dot[data-spot="gym"] {
+  left: 57%;
+  top: 78%;
+}
