@@ -2,30 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>
-      city in systems prototype
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A sensory journal of a climbing gym: explore three floors and seven days of smell notes.">
+    <title>A gym, by smell</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&amp;display=swap">
     <link rel="stylesheet" href="styles.css">
+    <script src="observations-data.js" defer></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
     <main>
-      <section aria-label="Interactive gym map">
+      <section class="map-section" aria-label="Interactive gym map">
         <div class="toolbar">
-          <button
-            class="toggle"
-            id="toggle"
-            type="button"
-            aria-label="Open floors side by side"
-            title="Open floors side by side"
-            aria-expanded="false"
-            aria-controls="stage"
-          >
-            click
-          </button>
+          <button id="toggle" aria-controls="stage" aria-expanded="false" aria-label="Click to open the floors">click <span aria-hidden="true">↗</span></button>
+          <span class="view-label" id="view-label">all stacked up</span>
+          <button class="text-button" id="about" aria-expanded="false" aria-controls="about-panel">what’s this?</button>
+        </div>
+        <div id="about-panel" class="about-panel" hidden>
+          same gym, different smells. some days it’s chalk, other days it’s feet or maybe lysol????
+          the rooms are a rough sketch, and the seven days use made-up notes to try things out.
         </div>
         <div class="stage" id="stage">
           <div class="floor" data-floor="entrance" aria-label="Entrance level">
@@ -38,8 +35,6 @@
             <div class="room lobby">
               Entrance / lobby
             </div>
-            <button class="dot" data-spot="desk" aria-label="Smell at the front desk">
-            </button>
             <span class="floor-title">
               00 / MAIN ENTRANCE
             </span>
@@ -54,10 +49,6 @@
             <div class="room climbing-area">
               Climbing area
             </div>
-            <button class="dot" data-spot="cave" aria-label="Smell in the cave">
-            </button>
-            <button class="dot" data-spot="climbing" aria-label="Smell in the climbing area">
-            </button>
             <span class="floor-title">
               01 / CLIMBING LEVEL
             </span>
@@ -72,45 +63,43 @@
             <div class="room basement-gym">
               Gym / shared space
             </div>
-            <button class="dot" data-spot="yoga" aria-label="Smell in the yoga room">
-            </button>
-            <button class="dot" data-spot="bathroom" aria-label="Smell in the bathroom">
-            </button>
-            <button class="dot" data-spot="gym" aria-label="Smell in the basement gym">
-            </button>
             <span class="floor-title">
               02 / BASEMENT
             </span>
           </div>
         </div>
       </section>
-      <aside>
+      <section class="journal" aria-label="Visit journal">
         <div class="visit-controls">
-          <label for="visit" class="eyebrow">
-            01 / Choose a visit
-          </label>
-          <select id="visit">
-          </select>
+          <div class="section-heading"><span class="eyebrow">01 / pick a day</span><span id="visit-count" class="muted"></span></div>
+          <div id="dates" class="dates" role="group" aria-label="Visit dates"></div>
+          <div class="visit-meta"><span id="date-label"></span></div>
+          <p id="receipt-progress" class="receipt-progress" role="status">reveal 3 different dots to get your scent receipt.</p>
+          <section id="receipt" class="receipt" aria-label="Your scent receipt" hidden>
+            <div class="receipt-heading">a receipt for your nose</div>
+            <p id="receipt-date" class="receipt-date"></p>
+            <h2>today you sniffed:</h2>
+            <ol id="receipt-items"></ol>
+            <div class="receipt-total"><span>total sniffed</span><strong id="receipt-count"></strong></div>
+            <p class="receipt-signoff">no refunds. you smelled what you smelled.</p>
+            <button id="download-receipt" class="text-button">keep this weird little receipt ↓</button>
+          </section>
         </div>
-        <div class="note" aria-live="polite" aria-atomic="true">
-          <div class="eyebrow">
-            02 / A smell, somewhere
+        <div class="observation" aria-live="polite" aria-atomic="true">
+          <div class="section-heading"><span class="eyebrow">02 / what’s that smell?</span><span id="location-floor" class="muted"></span></div>
+          <h1 id="spot-title">what do you think it smells like?</h1>
+          <p id="description" tabindex="-1">click to open the map, then pick a dot.</p>
+          <div id="quiz" hidden>
+            <div id="choices" class="choices" role="group" aria-label="Choose a smell description"></div>
+            <button id="reveal" class="text-button">just show me</button>
           </div>
-          <h2 id="spot-title">
-            Explore a little.
-          </h2>
-          <blockquote id="description">
-            Open the floors, then hover over a dot.
-          </blockquote>
+          <p id="quiz-feedback" class="quiz-feedback" role="status" hidden></p>
+          <div id="previous" class="previous" hidden><span id="previous-date"></span><p id="previous-note"></p></div>
         </div>
-        <div class="legend">
-          <span class="swatch">
-          </span>
-          A recorded observation
-        </div>
-      </aside>
+      </section>
+      <p id="load-status" role="status" hidden></p>
+      <noscript>This map needs JavaScript. Your notes are available in observations.json.</noscript>
     </main>
-    <script src="script.js">
-    </script>
+    <div id="tooltip" role="tooltip" hidden></div>
   </body>
 </html>
