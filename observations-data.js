@@ -1,4 +1,4 @@
-// Generated from observations.json. Run node sync-data.mjs to refresh.
+
 window.gymObservations = {
   "locations": {
     "desk": {

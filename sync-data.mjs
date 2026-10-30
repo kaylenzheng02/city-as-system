@@ -1,4 +1,3 @@
-// Refresh the local-file copy after editing observations.json.
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const source = new URL('./observations.json', import.meta.url);
